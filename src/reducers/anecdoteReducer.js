@@ -49,9 +49,10 @@ const reducer = (state = initialState, action) => {
         ...anecdoteToChange,
         votes: anecdoteToChange.votes + 1,
       };
-      return state.map((anecdote) =>
+      let finalArray = state.map((anecdote) =>
         anecdote.id !== id ? anecdote : changedToAnecdote
       );
+      return finalArray.sort((a, b) => b.votes - a.votes);
     }
     case "NEW_ANECDOTE": {
       console.log(console.log(action.data));
