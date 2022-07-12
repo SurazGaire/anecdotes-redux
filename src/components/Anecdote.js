@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addVotes } from "../reducers/anecdoteReducer";
+import { notifyMessage } from "../reducers/notificationReducer";
 const Anecdote = (props) => {
-  const anecdotes = useSelector((state) => state);
+  const anecdotes = useSelector((state) => state.anecdotes);
   const dispatch = useDispatch();
-  // let sortedAanecdotes = anecdotes.sort((a, b) => b.votes - a.votes);
+  console.log(anecdotes);
 
   return (
     <div>

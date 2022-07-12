@@ -1,3 +1,4 @@
+import { createSlice } from "@reduxjs/toolkit";
 const anecdotesAtStart = [
   "If it hurts, do it more often",
   "Adding manpower to a late software project makes it later!",
@@ -17,33 +18,66 @@ const asObject = (anecdote) => {
   };
 };
 
-export const addVotes = (id) => {
-  return {
-    type: "INCREASE_VOTES",
-    data: {
-      id,
-    },
-  };
-};
+// export const addVotes = (id) => {
+//   return {
+//     type: "INCREASE_VOTES",
+//     data: {
+//       id,
+//     },
+//   };
+// };
 
-export const createAnecdote = (content) => {
-  return {
-    type: "NEW_ANECDOTE",
-    data: {
-      content,
-      id: getId(),
-      votes: 0,
-    },
-  };
-};
+// export const createAnecdote = (content) => {
+//   return {
+//     type: "NEW_ANECDOTE",
+//     data: {
+//       content,
+//       id: getId(),
+//       votes: 0,
+//     },
+//   };
+// };
 
 const initialState = anecdotesAtStart.map(asObject);
-console.log(initialState[0]);
+console.log(initialState[1]);
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "INCREASE_VOTES": {
-      const id = action.data.id;
+// const reducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case "INCREASE_VOTES": {
+//       const id = action.data.id;
+//       const anecdoteToChange = state.find((n) => n.id === id);
+//       const changedToAnecdote = {
+//         ...anecdoteToChange,
+//         votes: anecdoteToChange.votes + 1,
+//       };
+//       let finalArray = state.map((anecdote) =>
+//         anecdote.id !== id ? anecdote : changedToAnecdote
+//       );
+//       return finalArray.sort((a, b) => b.votes - a.votes);
+//     }
+//     case "NEW_ANECDOTE": {
+//       console.log(console.log(action.data));
+//       return [...state, action.data];
+//     }
+//     default:
+//       return state;
+//   }
+// };
+
+const anecdoteSlice = createSlice({
+  name: "anecdotes",
+  initialState,
+  reducers: {
+    createAnecdote(state, action) {
+      const content = action.payload;
+      state.push({
+        content,
+        id: getId(),
+        votes: 0,
+      });
+    },
+    addVotes(state, action) {
+      const id = action.payload;
       const anecdoteToChange = state.find((n) => n.id === id);
       const changedToAnecdote = {
         ...anecdoteToChange,
@@ -53,14 +87,9 @@ const reducer = (state = initialState, action) => {
         anecdote.id !== id ? anecdote : changedToAnecdote
       );
       return finalArray.sort((a, b) => b.votes - a.votes);
-    }
-    case "NEW_ANECDOTE": {
-      console.log(console.log(action.data));
-      return [...state, action.data];
-    }
-    default:
-      return state;
-  }
-};
+    },
+  },
+});
 
-export default reducer;
+export const { createAnecdote, addVotes } = anecdoteSlice.actions;
+export default anecdoteSlice.reducer;
