@@ -6,6 +6,8 @@ const Notification = () => {
     border: "solid",
     padding: 10,
     borderWidth: 1,
+    color: "green",
+    display: "none",
   };
   return <div style={style}>{notification}</div>;
 };
